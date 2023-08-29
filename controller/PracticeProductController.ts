@@ -16,7 +16,6 @@ router.post("/api/product", async (req: Request, res: Response) => {
       description,
       price,
       quantity,
-      category,
       status,
     });
 

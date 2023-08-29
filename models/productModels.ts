@@ -28,9 +28,9 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
     },
 
-    category: {
-      type: String,
-    },
+    // category: {
+    //   type: String,
+    // },
 
     status: {
       type: Boolean,
