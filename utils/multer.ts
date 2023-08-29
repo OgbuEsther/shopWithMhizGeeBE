@@ -28,16 +28,16 @@ const Storage = multer.diskStorage({
 //   }
 // };
 
-const writerImgConfig = multer({
-  storage: Storage,
-  // fileFilter: multerFilter
-}).single("writerImg")
+// const writerImgConfig = multer({
+//   storage: Storage,
+//   // fileFilter: multerFilter
+// }).single("writerImg")
 
 
-const uploadBlogsConfig = multer({
+const uploadProducConfig = multer({
   storage: Storage,
   // fileFilter: multerFilter
-}).single("blogImg")
+}).single("productImage")
 
 
 
@@ -48,4 +48,4 @@ const uploadBlogsConfig = multer({
 
 
 
-export {writerImgConfig ,uploadBlogsConfig}
+export {uploadProducConfig}

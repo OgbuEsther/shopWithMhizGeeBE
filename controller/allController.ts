@@ -3,6 +3,7 @@ import productModels from "../models/productModels";
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cloudinary from "../utils/cloudinary";
 const router = express.Router();
 
 //get all users
@@ -89,13 +90,13 @@ router.post("/login", async (req: Request, res: Response) => {
 
 router.post("/createProduct", async (req: Request, res: Response) => {
   try {
-    const { title, desc, price, category, quantity, status } = req.body;
-
+    const { title, desc, price, uploadProducConfig, quantity, status } = req.body;
+    const imgUploader = await cloudinary.uploader.upload(req?.file!.path);
     const creating = await productModels.create({
       title,
       desc,
       price,
-      category,
+      uploadProducConfig :imgUploader?.secure_url,
       quantity,
       status: true,
     });
