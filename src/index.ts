@@ -5,11 +5,12 @@ import AllRoute from "../controller/practiceController";
 import router from "../controller/ProductController";
 const port = 4573;
 const url = "mongodb://0.0.0.0:27017/SWMG";
+const LIVE_URI = "mongodb+srv://Esther:Esther2004@cluster0.byfqhoj.mongodb.net/SWMGDB?retryWrites=true&w=majority"
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect(url).then(() => {
+mongoose.connect(LIVE_URI).then(() => {
   console.log("database connection established");
 });
 
