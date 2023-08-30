@@ -1,19 +1,34 @@
-import UserModel from "../models/UserModel";
+
 import productModels from "../models/productModels";
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
-const router = express.Router();
+import UserModel from "../models/UserModel";
+ const router = express.Router();
 
 //get all users
-router.get("/users", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
     const fetchUsers = await UserModel.find();
 
     return res.status(200).json({
       message: "Success",
       data: fetchUsers,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+});
+//get one user
+router.get("/:userID", async (req: Request, res: Response) => {
+  try {
+    const fetchUser = await UserModel.findById(req.params.userID);
+
+    return res.status(200).json({
+      message: "Success",
+      data: fetchUser,
     });
   } catch (error) {
     return res.status(404).json({
@@ -67,3 +82,6 @@ router.post("/login", async (req: Request, res: Response) => {
     });
   }
 });
+
+
+export default router

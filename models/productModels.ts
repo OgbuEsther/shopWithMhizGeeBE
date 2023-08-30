@@ -5,7 +5,7 @@ interface Iprod {
   desc: string;
   price: number;
   quantity: number;
-  uploadProducConfig: string;
+  productImage: string;
   status: boolean;
 }
 
@@ -28,7 +28,7 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
     },
 
-    uploadProducConfig: {
+    productImage: {
       type: String,
     },
 

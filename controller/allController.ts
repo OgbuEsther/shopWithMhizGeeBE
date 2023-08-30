@@ -1,9 +1,10 @@
-import UserModel from "../models/UserModel";
+
 import productModels from "../models/productModels";
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cloudinary from "../utils/cloudinary";
+import UserModel from "../models/UserModel";
 const router = express.Router();
 
 //get all users
