@@ -66,4 +66,38 @@ router.patch(
   }
 );
 
+
+
+//get all products
+
+router.get("/allproducts", async (req: Request, res: Response) => {
+  try {
+    const getProducts = await productModels.find().sort({createdAt : -1});
+
+    return res.status(200).json({
+      messsage: "gotten all products",
+      data: getProducts,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: "an error occured",
+    });
+  }
+});
+
+router.get("/allproducts/:id", async (req: Request, res: Response) => {
+  try {
+    const getProducts = await productModels.findById(req.params.id);
+
+    return res.status(200).json({
+      messsage: "gotten all products",
+      data: getProducts,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: "an error occured",
+    });
+  }
+});
+
 export default router;
