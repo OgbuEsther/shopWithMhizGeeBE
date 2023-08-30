@@ -10,7 +10,7 @@ import { uploadProducConfig } from "../utils/multer";
 
 router.post("/new-product",uploadProducConfig, async (req: Request, res: Response) => {
   try {
-    const { title, price, productImage, quantity, status } = req.body;
+    const { title, price, productImage, quantity, status , desc } = req.body;
     const imgUploader = await cloudinary.uploader.upload(req?.file!.path);
     const creating = await productModels.create({
       title,
@@ -18,6 +18,7 @@ router.post("/new-product",uploadProducConfig, async (req: Request, res: Respons
       productImage :imgUploader?.secure_url,
       quantity,
       status: true,
+      desc
     });
 
     return res.status(201).json({
