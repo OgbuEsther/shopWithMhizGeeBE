@@ -98,7 +98,7 @@ export const payOut = async (req: Request, res: Response) => {
       amount: amount,
       currency: "USD",
       narration: "Example DOM Payout",
-      reference: "SAMPLE-REF03",
+      reference: "SAMPLE-REF030",
       beneficiary_name: "SWMG",
       meta: [
         {
