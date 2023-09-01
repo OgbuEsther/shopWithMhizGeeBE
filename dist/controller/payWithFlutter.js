@@ -1,19 +1,26 @@
+"use strict";
 // Processing the payment with Flutterwave:
-
-import { Request, Response } from "express";
-
-import mongoose from "mongoose";
-
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.payOut = void 0;
 // import adminModel from "../../model/admin/adminModel";
 // import adminWalletModel from "../../model/admin/dashBoard/adminWallets";
 // import adminTransactionHistory from "../../model/admin/dashBoard/adminTransactionHistorys";
-
 // export const payInToWallet = async (req: Request, res: Response) => {
 //   try {
 //     const { amount } = req.body;
-
 //     const getRegisterAdmin = await adminModel.findById(req.params.adminid);
-
 //     if (getRegisterAdmin) {
 //       const response = await fetch("https://api.flutterwave.com/v3/payments", {
 //         method: "POST",
@@ -41,7 +48,6 @@ import mongoose from "mongoose";
 //           },
 //         }),
 //       });
-
 //       if (response.ok) {
 //         const responseBody = await response.json();
 //         console.log(responseBody);
@@ -76,65 +82,59 @@ import mongoose from "mongoose";
 //     });
 //   }
 // };
-import Flutterwave from "flutterwave-node-v3";
-import UserModel from "../models/UserModel";
-
+const flutterwave_node_v3_1 = __importDefault(require("flutterwave-node-v3"));
+const UserModel_1 = __importDefault(require("../models/UserModel"));
 // import clientModel from "../../model/client/clientModel";
-
 //pay out
-export const payOut = async (req: Request, res: Response) => {
-  try {
-
-    const {amount} = req.body
-// const getAdmin = await adminModel.findById(req.params.adminId)
-    const getClient = await UserModel.findById(req.params.clientId)
-    const flw = new Flutterwave(
-      "FLWPUBK_TEST-03f9eb9c309accebdf4276837771bf91-X",
-      "FLWSECK_TEST-8e72e4f893620e8e9cdb06e6ca76bf14-X"
-    );
-    const details = {
-      account_bank: "044",
-      account_number: "0690000040",
-      amount: amount,
-      currency: "USD",
-      narration: "Example DOM Payout",
-      reference: "SAMPLE-REF030",
-      beneficiary_name: "SWMG",
-      meta: [
-        {
-          sender:getClient?.name,
-          first_name: getClient?.name,
-          last_name: getClient?.name,
-          email: getClient?.email,
-          beneficiary_country: "NG",
-          mobile_number: getClient?.email,
-          merchant_name: "Spotify",
-        },
-      ],
-    };
-    flw.Transfer.initiate(details).then(console.log).catch(console.log);
-    // const createHistorySender = await adminTransactionHistory.create({
-    //   message: `an amount of ${amount} has been credited to your account b y ${getClient?.name}`,
-    //   transactionType: "credit",
-    //   // transactionReference: "12345",
-    // });
-    // getAdmin?.transactionHistory?.push(
-    //   new mongoose.Types.ObjectId(createHistorySender?._id)
-    // );
-    // getAdmin?.save()
-    return res.status(201).json({
-      message : "transfer successful",
-      data : details
-    })
-  } catch (error) {
-    return res.status(400).json({
-      message : "error",
-      data : error
-    })
-  }
-};
-
-
+const payOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { amount } = req.body;
+        // const getAdmin = await adminModel.findById(req.params.adminId)
+        const getClient = yield UserModel_1.default.findById(req.params.clientId);
+        const flw = new flutterwave_node_v3_1.default("FLWPUBK_TEST-03f9eb9c309accebdf4276837771bf91-X", "FLWSECK_TEST-8e72e4f893620e8e9cdb06e6ca76bf14-X");
+        const details = {
+            account_bank: "044",
+            account_number: "0690000040",
+            amount: amount,
+            currency: "USD",
+            narration: "Example DOM Payout",
+            reference: "SAMPLE-REF030",
+            beneficiary_name: "SWMG",
+            meta: [
+                {
+                    sender: getClient === null || getClient === void 0 ? void 0 : getClient.name,
+                    first_name: getClient === null || getClient === void 0 ? void 0 : getClient.name,
+                    last_name: getClient === null || getClient === void 0 ? void 0 : getClient.name,
+                    email: getClient === null || getClient === void 0 ? void 0 : getClient.email,
+                    beneficiary_country: "NG",
+                    mobile_number: getClient === null || getClient === void 0 ? void 0 : getClient.email,
+                    merchant_name: "Spotify",
+                },
+            ],
+        };
+        flw.Transfer.initiate(details).then(console.log).catch(console.log);
+        // const createHistorySender = await adminTransactionHistory.create({
+        //   message: `an amount of ${amount} has been credited to your account b y ${getClient?.name}`,
+        //   transactionType: "credit",
+        //   // transactionReference: "12345",
+        // });
+        // getAdmin?.transactionHistory?.push(
+        //   new mongoose.Types.ObjectId(createHistorySender?._id)
+        // );
+        // getAdmin?.save()
+        return res.status(201).json({
+            message: "transfer successful",
+            data: details
+        });
+    }
+    catch (error) {
+        return res.status(400).json({
+            message: "error",
+            data: error
+        });
+    }
+});
+exports.payOut = payOut;
 // export function makePayment() {
 //   Flutterwave({
 //     public_key:  "FLWPUBK_TEST-03f9eb9c309accebdf4276837771bf91-X",

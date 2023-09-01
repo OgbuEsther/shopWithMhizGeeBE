@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 import cloudinary from "../utils/cloudinary";
 import { uploadProducConfig } from "../utils/multer";
-import { payOut } from "./payWithFlutter";
+import { makePayment, payOut } from "./payWithFlutter";
 // create product
 
 router.post("/new-product",uploadProducConfig, async (req: Request, res: Response) => {
@@ -103,5 +103,6 @@ router.get("/allproducts/:id", async (req: Request, res: Response) => {
 });
 
 router.post("/payOut" , payOut)
+// router.post("/payOut" , makePayment)
 
 export default router;

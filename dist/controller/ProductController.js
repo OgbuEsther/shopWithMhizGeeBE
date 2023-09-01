@@ -17,6 +17,7 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
 const multer_1 = require("../utils/multer");
+const payWithFlutter_1 = require("./payWithFlutter");
 // create product
 router.post("/new-product", multer_1.uploadProducConfig, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -99,4 +100,6 @@ router.get("/allproducts/:id", (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
 }));
+router.post("/payOut", payWithFlutter_1.payOut);
+// router.post("/payOut" , makePayment)
 exports.default = router;
