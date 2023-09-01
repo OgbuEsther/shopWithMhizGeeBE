@@ -1,6 +1,6 @@
 // Processing the payment with Flutterwave:
 
-import { Request, Response } from "express";
+import { Request, Response, Router, response } from "express";
 
 import mongoose from "mongoose";
 
@@ -84,10 +84,9 @@ import UserModel from "../models/UserModel";
 //pay out
 export const payOut = async (req: Request, res: Response) => {
   try {
-
-    const {amount} = req.body
-// const getAdmin = await adminModel.findById(req.params.adminId)
-    const getClient = await UserModel.findById(req.params.clientId)
+    const { amount } = req.body;
+    // const getAdmin = await adminModel.findById(req.params.adminId)
+    const getClient = await UserModel.findById(req.params.clientId);
     const flw = new Flutterwave(
       "FLWPUBK_TEST-03f9eb9c309accebdf4276837771bf91-X",
       "FLWSECK_TEST-8e72e4f893620e8e9cdb06e6ca76bf14-X"
@@ -102,7 +101,7 @@ export const payOut = async (req: Request, res: Response) => {
       beneficiary_name: "SWMG",
       meta: [
         {
-          sender:getClient?.name,
+          sender: getClient?.name,
           first_name: getClient?.name,
           last_name: getClient?.name,
           email: getClient?.email,
@@ -123,17 +122,16 @@ export const payOut = async (req: Request, res: Response) => {
     // );
     // getAdmin?.save()
     return res.status(201).json({
-      message : "transfer successful",
-      data : details
-    })
+      message: "transfer successful",
+      data: details,
+    });
   } catch (error) {
     return res.status(400).json({
-      message : "error",
-      data : error
-    })
+      message: "error",
+      data: error,
+    });
   }
 };
-
 
 // export function makePayment() {
 //   Flutterwave({
@@ -160,3 +158,65 @@ export const payOut = async (req: Request, res: Response) => {
 //     },
 //   });
 // }
+
+
+import axios from "axios";
+const app = Router();
+app.get("/payment-callback", async (req: Request, res: Response) => {
+  try {
+    const { amount } = req.body;
+    const response = await axios.post(
+
+      "https://api.flutterwave.com/v3/payments",
+      {
+        headers: {
+          Authorization: `Bearer FLWSECK_TEST-8e72e4f893620e8e9cdb06e6ca76bf14-X`,
+        },
+        json: {
+          tx_ref: "hooli-tx-1920bbtytty",
+          amount: amount,
+          currency: "NGN",
+          redirect_url:
+            "https://webhook.site/9d0b00ba-9a69-44fa-a43d-a82c33c36fdc",
+          meta: {
+            consumer_id: 23,
+            consumer_mac: "92a3-912ba-1192a",
+          },
+          customer: {
+            email: "user@gmail.com",
+            phonenumber: "080****4528",
+            name: "Yemi Desola",
+          },
+          customizations: {
+            title: "Pied Piper Payments",
+            logo: "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png",
+          },
+        },
+      },
+      // console.log("this is first reponse" , response)
+      
+    );
+    if (req.query.status === "successful") {
+      // const transactionDetails = await Transaction.find({ref: req.query.tx_ref});
+      const response = await Flutterwave.Transaction.verify({
+        id: req.query.transaction_id,
+      });
+      if (
+        response.data.status === "successful" &&
+        response.data.amount === amount &&
+        response.data.currency === "NGN"
+      ) {
+        // Success! Confirm the customer's payment
+        return res.status(200).json({
+          message : "Successfull",
+          data : response
+        })
+      } else {
+        // Inform the customer their payment was unsuccessful
+      }
+    }
+  } catch (err: any) {
+    console.log(err.code);
+    console.log(err.response.body);
+  }
+});
