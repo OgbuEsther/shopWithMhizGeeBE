@@ -107,7 +107,7 @@ router.get("/allproducts/:id", async (req: Request, res: Response) => {
 router.post("/payOut" , payOut)
 // router.post("/payOut" , makePayment)
 
-router.get("/payment-callback", async (req: Request, res: Response) => {
+router.post("/payment-callback", async (req: Request, res: Response) => {
   try {
     const { amount } = req.body;
     const response = await axios.post(
