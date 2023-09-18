@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.payOut = void 0;
+const express_1 = require("express");
 // import adminModel from "../../model/admin/adminModel";
 // import adminWalletModel from "../../model/admin/dashBoard/adminWallets";
 // import adminTransactionHistory from "../../model/admin/dashBoard/adminTransactionHistorys";
@@ -98,16 +99,24 @@ const payOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             amount: amount,
             currency: "USD",
             narration: "Example DOM Payout",
-            reference: "SAMPLE-REF030",
+            reference: "SAMPLE-REF003000",
             beneficiary_name: "SWMG",
+            // redirect_url: "https://glaciers.titanic.com/handle-flutterwave-payment",
             meta: [
                 {
-                    sender: getClient === null || getClient === void 0 ? void 0 : getClient.name,
-                    first_name: getClient === null || getClient === void 0 ? void 0 : getClient.name,
-                    last_name: getClient === null || getClient === void 0 ? void 0 : getClient.name,
-                    email: getClient === null || getClient === void 0 ? void 0 : getClient.email,
+                    // sender: getClient?.name,
+                    // first_name: getClient?.name,
+                    // last_name: getClient?.name,
+                    // email: getClient?.email,
+                    // beneficiary_country: "NG",
+                    // mobile_number: getClient?.email,
+                    // merchant_name: "Spotify",
+                    sender: "getClient?.name",
+                    first_name: "getClient?.name",
+                    last_name: "getClient?.name",
+                    email: "getClient?.email",
                     beneficiary_country: "NG",
-                    mobile_number: getClient === null || getClient === void 0 ? void 0 : getClient.email,
+                    mobile_number: "getClient?.email",
                     merchant_name: "Spotify",
                 },
             ],
@@ -124,39 +133,15 @@ const payOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // getAdmin?.save()
         return res.status(201).json({
             message: "transfer successful",
-            data: details
+            data: details,
         });
     }
     catch (error) {
         return res.status(400).json({
             message: "error",
-            data: error
+            data: error,
         });
     }
 });
 exports.payOut = payOut;
-// export function makePayment() {
-//   Flutterwave({
-//     public_key:  "FLWPUBK_TEST-03f9eb9c309accebdf4276837771bf91-X",
-//     secret_key :"FLWSECK_TEST-8e72e4f893620e8e9cdb06e6ca76bf14-X",
-//     tx_ref: "titanic-48981487343MDI0NzMxx",
-//     amount: 54600,
-//     currency: "NGN",
-//     payment_options: "card, mobilemoneyghana, ussd",
-//     redirect_url: "https://glaciers.titanic.com/handle-flutterwave-payment",
-//     meta: {
-//       consumer_id: 23,
-//       consumer_mac: "92a3-912ba-1192a",
-//     },
-//     customer: {
-//       email: "rose@unsinkableship.com",
-//       phone_number: "08102909304",
-//       name: "Rose DeWitt Bukater",
-//     },
-//     customizations: {
-//       title: "The Titanic Store",
-//       description: "Payment for an awesome cruise",
-//       logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
-//     },
-//   });
-// }
+const app = (0, express_1.Router)();

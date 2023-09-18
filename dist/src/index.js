@@ -14,7 +14,7 @@ const LIVE_URI = "mongodb+srv://Esther:Esther2004@cluster0.byfqhoj.mongodb.net/S
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-mongoose_1.default.connect(LIVE_URI).then(() => {
+mongoose_1.default.connect(url).then(() => {
     console.log("database connection established");
 });
 app.use("/api/products", ProductController_1.default);
