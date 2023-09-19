@@ -48,11 +48,12 @@ router.get("/:userID", (req, res) => __awaiter(void 0, void 0, void 0, function*
 //register a user
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, phoneNum } = req.body;
         const user = yield UserModel_1.default.create({
             name,
             email,
             password,
+            phoneNum
         });
         return res.status(200).json({
             message: "Success",
