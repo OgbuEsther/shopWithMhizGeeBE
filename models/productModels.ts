@@ -7,6 +7,7 @@ interface Iprod {
   quantity: number;
   productImage: string;
   status: boolean;
+  category : string
 }
 
 interface UserData extends Iprod, mongoose.Document {}
@@ -34,6 +35,9 @@ const ProductSchema = new mongoose.Schema(
 
     status: {
       type: Boolean,
+    },
+    category: {
+      type: String,
     },
   },
   { timestamps: true }
