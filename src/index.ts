@@ -10,8 +10,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect(url).then(() => {
+mongoose.connect(LIVE_URI).then(() => {
   console.log("database connection established");
+}).catch((err)=>{
+  console.log("failed to connect" , err)
 });
 
 app.use("/api/products", router);
