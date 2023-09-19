@@ -23,5 +23,8 @@ const ProductSchema = new mongoose_1.default.Schema({
     status: {
         type: Boolean,
     },
+    category: {
+        type: String,
+    },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model("products", ProductSchema);

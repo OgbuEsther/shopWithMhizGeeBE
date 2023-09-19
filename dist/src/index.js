@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const practiceController_1 = __importDefault(require("../controller/practiceController"));
 const ProductController_1 = __importDefault(require("../controller/ProductController"));
+const categoryController_1 = __importDefault(require("../controller/categoryController"));
 const port = 4573;
 const url = "mongodb://0.0.0.0:27017/SWMG";
 const LIVE_URI = "mongodb+srv://Esther:Esther2004@cluster0.byfqhoj.mongodb.net/SWMGDB?retryWrites=true&w=majority";
@@ -21,6 +22,7 @@ mongoose_1.default.connect(LIVE_URI).then(() => {
 });
 app.use("/api/products", ProductController_1.default);
 app.use("/api/users", practiceController_1.default);
+app.use("/api/category", categoryController_1.default);
 app.listen(port, () => {
     console.log("listening on port", port);
 });

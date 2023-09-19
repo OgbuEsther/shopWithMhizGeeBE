@@ -20,23 +20,42 @@ const multer_1 = require("../utils/multer");
 const payWithFlutter_1 = require("./payWithFlutter");
 const flutterwave_node_v3_1 = __importDefault(require("flutterwave-node-v3"));
 const axios_1 = __importDefault(require("axios"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const categoryModel_1 = __importDefault(require("../models/categoryModel"));
 // create product
 router.post("/new-product", multer_1.uploadProducConfig, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, price, productImage, quantity, status, desc } = req.body;
+        const { title, price, productImage, quantity, status, desc, category } = req.body;
         const imgUploader = yield cloudinary_1.default.uploader.upload(req === null || req === void 0 ? void 0 : req.file.path);
-        const creating = yield productModels_1.default.create({
-            title,
-            price,
-            productImage: imgUploader === null || imgUploader === void 0 ? void 0 : imgUploader.secure_url,
-            quantity,
-            status: true,
-            desc
-        });
-        return res.status(201).json({
-            message: "Product successfully created",
-            data: creating,
-        });
+        let getCatName = yield categoryModel_1.default.findOne({ name: category });
+        if ((getCatName === null || getCatName === void 0 ? void 0 : getCatName.name) === category) {
+            const products = yield productModels_1.default.create({
+                title,
+                price,
+                productImage: imgUploader === null || imgUploader === void 0 ? void 0 : imgUploader.secure_url,
+                quantity,
+                status: true,
+                desc
+            });
+            yield (getCatName === null || getCatName === void 0 ? void 0 : getCatName.products.push(new mongoose_1.default.Types.ObjectId(products === null || products === void 0 ? void 0 : products._id)));
+            yield (getCatName === null || getCatName === void 0 ? void 0 : getCatName.save());
+            if (!products) {
+                return res.status(201).json({
+                    message: "couldn't create product",
+                });
+            }
+            else {
+                return res.status(201).json({
+                    message: "new product added",
+                    data: products,
+                });
+            }
+        }
+        else {
+            return res.status(400).json({
+                message: "failed to find an existing category ",
+            });
+        }
     }
     catch (error) {
         return res.status(400).json({
