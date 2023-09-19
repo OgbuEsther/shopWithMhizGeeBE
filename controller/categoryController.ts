@@ -5,7 +5,7 @@ import categoryModel from "../models/categoryModel";
 const router = express.Router();
 
 //get all users
-router.get("/new-category", async (req: Request, res: Response) => {
+router.post("/new-category", async (req: Request, res: Response) => {
  
     try {
       const { name } = req.body;

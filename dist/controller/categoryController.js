@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const categoryModel_1 = __importDefault(require("../models/categoryModel"));
 const router = express_1.default.Router();
 //get all users
-router.get("/new-category", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/new-category", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.body;
         const newCat = yield categoryModel_1.default.create({
