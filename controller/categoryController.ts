@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-
+import express from "express"
 import categoryModel from "../models/categoryModel";
 
+const router = express.Router();
 
-export const newCategory = async (req: Request, res: Response) => {
+//get all users
+router.get("/new-category", async (req: Request, res: Response) => {
+ 
     try {
       const { name } = req.body;
       const newCat = await categoryModel.create({
@@ -21,5 +24,5 @@ export const newCategory = async (req: Request, res: Response) => {
         err: error,
       });
     }
-  };
   
+})
