@@ -9,25 +9,54 @@ import { uploadProducConfig } from "../utils/multer";
 import {  payOut } from "./payWithFlutter";
 import Flutterwave from "flutterwave-node-v3";
 import axios from "axios";
+import mongoose from "mongoose";
+import categoryModel from "../models/categoryModel";
 // create product
 
 router.post("/new-product",uploadProducConfig, async (req: Request, res: Response) => {
   try {
-    const { title, price, productImage, quantity, status , desc } = req.body;
+    const { title, price, productImage, quantity, status , desc ,category } = req.body;
     const imgUploader = await cloudinary.uploader.upload(req?.file!.path);
-    const creating = await productModels.create({
-      title,
-      price,
-      productImage :imgUploader?.secure_url,
-      quantity,
-      status: true,
-      desc
-    });
+    let getCatName = await categoryModel.findOne({ name: category });
+    if (getCatName?.name === category) {
+      const products = await productModels.create({
+        title,
+        price,
+        productImage :imgUploader?.secure_url,
+        quantity,
+        status: true,
+        desc
+      });
 
-    return res.status(201).json({
-      message: "Product successfully created",
-      data: creating,
-    });
+         
+
+          await getCatName?.products.push(
+            new mongoose.Types.ObjectId(products?._id)
+          );
+
+          await getCatName?.save();
+
+          if (!products) {
+            return res.status(201).json({
+              message: "couldn't create product",
+             
+            });
+          } else {
+            return res.status(201).json({
+              message: "new product added",
+              data: products,
+            });
+          }
+        }else{
+          return res.status(400).json({
+            message: "failed to find an existing category ",
+           
+          
+          });
+        }
+  
+
+   
   } catch (error:any) {
     return res.status(400).json({
       message: "unable to create product",
