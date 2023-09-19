@@ -41,12 +41,13 @@ router.get("/:userID", async (req: Request, res: Response) => {
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password ,phoneNum } = req.body;
 
     const user = await UserModel.create({
       name,
       email,
       password,
+      phoneNum
     });
 
     return res.status(200).json({

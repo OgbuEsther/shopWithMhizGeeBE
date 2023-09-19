@@ -4,6 +4,7 @@ interface Iprod {
   name: string;
   email: string;
   password: string;
+  phoneNum: string;
   cart: any[];
   isAdmin: boolean;
 }
@@ -13,6 +14,9 @@ interface UserData extends Iprod, mongoose.Document {}
 const UserSchema = new mongoose.Schema(
   {
     name: {
+      type: String,
+    },
+    phoneNum: {
       type: String,
     },
     email: {
