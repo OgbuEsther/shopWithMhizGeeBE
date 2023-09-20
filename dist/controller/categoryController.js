@@ -35,4 +35,39 @@ router.post("/new-category", (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 }));
+router.post("/all-category", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const newCat = yield categoryModel_1.default.find();
+        return res.status(201).json({
+            message: "new category added",
+            data: newCat,
+        });
+    }
+    catch (error) {
+        return res.status(400).json({
+            message: "an error occurred while creating a category",
+            data: error.message,
+            err: error,
+        });
+    }
+}));
+router.post("/all-category/:catId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name } = req.body;
+        const newCat = yield categoryModel_1.default.create({
+            name,
+        });
+        return res.status(201).json({
+            message: "new category added",
+            data: newCat,
+        });
+    }
+    catch (error) {
+        return res.status(400).json({
+            message: "an error occurred while creating a category",
+            data: error.message,
+            err: error,
+        });
+    }
+}));
 exports.default = router;
