@@ -35,7 +35,8 @@ router.post("/new-product", multer_1.uploadProducConfig, (req, res) => __awaiter
                 productImage: imgUploader === null || imgUploader === void 0 ? void 0 : imgUploader.secure_url,
                 quantity,
                 status: true,
-                desc
+                desc,
+                category
             });
             yield (getCatName === null || getCatName === void 0 ? void 0 : getCatName.products.push(new mongoose_1.default.Types.ObjectId(products === null || products === void 0 ? void 0 : products._id)));
             yield (getCatName === null || getCatName === void 0 ? void 0 : getCatName.save());

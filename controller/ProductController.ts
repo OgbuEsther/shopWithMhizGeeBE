@@ -25,7 +25,8 @@ router.post("/new-product",uploadProducConfig, async (req: Request, res: Respons
         productImage :imgUploader?.secure_url,
         quantity,
         status: true,
-        desc
+        desc,
+        category
       });
 
          
