@@ -35,7 +35,7 @@ router.post("/new-category", (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 }));
-router.post("/all-category", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/all-category", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newCat = yield categoryModel_1.default.find();
         return res.status(201).json({
@@ -51,7 +51,7 @@ router.post("/all-category", (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 }));
-router.post("/all-category/:catId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/all-category/:catId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.body;
         const newCat = yield categoryModel_1.default.create({
