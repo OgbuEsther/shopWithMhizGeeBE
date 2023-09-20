@@ -49,7 +49,7 @@ router.get("/all-category/:catId", async (req: Request, res: Response) => {
  
     try {
       const { name } = req.body;
-      const newCat = await categoryModel.findById(req.params.catId).populate({path :""}).p
+      const newCat = await categoryModel.findById(req.params.catId).populate({path :"products"})
   
       return res.status(201).json({
         message: "new category added",

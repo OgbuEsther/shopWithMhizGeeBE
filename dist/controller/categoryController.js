@@ -54,7 +54,7 @@ router.get("/all-category", (req, res) => __awaiter(void 0, void 0, void 0, func
 router.get("/all-category/:catId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.body;
-        const newCat = yield categoryModel_1.default.findById(req.params.catId);
+        const newCat = yield categoryModel_1.default.findById(req.params.catId).populate({ path: "products" });
         return res.status(201).json({
             message: "new category added",
             data: newCat,
